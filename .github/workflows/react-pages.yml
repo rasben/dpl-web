@@ -1,4 +1,4 @@
-name: "React / GitHub pages"
+name: React / GitHub pages
 
 on:
   push:

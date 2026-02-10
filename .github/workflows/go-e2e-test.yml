@@ -1,4 +1,4 @@
-name: "Go / E2E tests"
+name: Go / E2E tests
 
 on:
   push:
@@ -18,7 +18,7 @@ on:
 
 jobs:
   check:
-    name: E2E job with Cypress
+    name: Go / E2E job with Cypress
     runs-on: ubuntu-latest
 
     defaults:

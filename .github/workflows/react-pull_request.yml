@@ -1,4 +1,4 @@
-name: "React / Build and test"
+name: React / Build and test
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   stylelint:
-    name: Lint .scss
+    name: React / Lint .scss
     if: '!github.event.deleted'
     runs-on: ubuntu-latest
     defaults:
@@ -36,7 +36,7 @@ jobs:
         run: yarn lint:scss
 
   typescript:
-    name: Typescript compile check
+    name: React / Typescript compile check
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -57,7 +57,7 @@ jobs:
         run: npx tsc --noEmit
 
   eslint:
-    name: Lint .js and .jsx
+    name: React / Lint .js and .jsx
     if: '!github.event.deleted'
     runs-on: ubuntu-latest
     defaults:
@@ -86,7 +86,7 @@ jobs:
         run: yarn lint:js
 
   markdownlint:
-    name: Lint markdown
+    name: React / Lint markdown
     if: '!github.event.deleted'
     runs-on: ubuntu-latest
     defaults:

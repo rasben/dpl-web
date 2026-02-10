@@ -1,4 +1,4 @@
-name: "React / Create release on branch changes"
+name: React / Create release on branch changes
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   create_release_on_branch_changes:
-    name: "Create release on branch changes"
+    name: React / Create release on branch changes
     runs-on: ubuntu-latest
     defaults:
       run:

@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   ValidateComposer:
-    name: Validate Composer
+    name: CMS / Validate Composer
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -40,7 +40,7 @@ jobs:
         run: git diff --exit-code
 
   Phpcs:
-    name: Check code style
+    name: CMS / Check code style
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -62,7 +62,7 @@ jobs:
         vendor/bin/phpcs -q --report=checkstyle | cs2pr
 
   TwigCsFixer:
-    name: Check Twig code style
+    name: CMS / Check Twig code style
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -84,7 +84,7 @@ jobs:
           vendor/bin/twig-cs-fixer lint --report=github
 
   Phpstan:
-    name: Analyse code using PHPStan
+    name: CMS / Analyse code using PHPStan
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -107,7 +107,7 @@ jobs:
           phpstan
 
   PhpUnit:
-    name: Run PHP unit tests
+    name: CMS / Run PHP unit tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -128,7 +128,7 @@ jobs:
         run: ./vendor/bin/phpunit --coverage-text
 
   LightHouse:
-    name: Test site performance using Lighthouse
+    name: CMS / Test site performance using Lighthouse
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -154,7 +154,7 @@ jobs:
           path: .lighthouseci
 
   Pa11y:
-    name: Test accessibility using Pa11y
+    name: CMS / Test accessibility using Pa11y
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -181,7 +181,7 @@ jobs:
           path: pa11y/screenshots
 
   CypressMapped:
-    name: Run Cypress mapped functional tests
+    name: CMS / Run Cypress mapped functional tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -214,7 +214,7 @@ jobs:
           path: cypress/screenshots
 
   CypressUnmapped:
-    name: Run Cypress unmapped functional tests
+    name: CMS / Run Cypress unmapped functional tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -247,7 +247,7 @@ jobs:
           path: cypress/screenshots
 
   CypressWebmaster:
-    name: Run Cypress webmaster functional tests
+    name: CMS / Run Cypress webmaster functional tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -280,7 +280,7 @@ jobs:
           path: cypress/screenshots
 
   MarkdownLint:
-    name: Lint Markdown
+    name: CMS / Lint Markdown
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -303,7 +303,7 @@ jobs:
         run: npx markdownlint-cli2
 
   Shellcheck:
-    name: Shellcheck
+    name: CMS / Shellcheck
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -327,7 +327,7 @@ jobs:
           filter_mode: nofilter
 
   EslintDrupal:
-    name: Lint Drupal assets
+    name: CMS / Lint Drupal assets
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -348,7 +348,7 @@ jobs:
         run: npx eslint web -c .eslintrc.json
 
   EslintCypress:
-    name: Lint Cypress tests
+    name: CMS / Lint Cypress tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -369,7 +369,7 @@ jobs:
         run: npx eslint cypress -c cypress/.eslintrc.json
 
   CheckOpenApiSpec:
-    name: Check OpenAPI specification
+    name: CMS / Check OpenAPI specification
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -398,7 +398,7 @@ jobs:
         run: git diff --ignore-space-at-eol --exit-code packages/cms-api/*
 
   CheckGraphQlSchema:
-    name: Check GraphQL specification
+    name: CMS / Check GraphQL specification
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -423,7 +423,7 @@ jobs:
         run: git diff --ignore-space-at-eol --exit-code web/modules/custom/bnf/src/GraphQL/*
 
   CheckDrupalConfig:
-    name: Check Drupal Config
+    name: CMS / Check Drupal Config
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -446,7 +446,7 @@ jobs:
         run: git diff --ignore-space-at-eol --exit-code config/sync/*.yml
 
   CheckPhpVersion:
-    name: Check PHP version
+    name: CMS / Check PHP version
     runs-on: ubuntu-latest
     defaults:
       run:

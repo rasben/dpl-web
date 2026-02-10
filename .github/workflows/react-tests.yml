@@ -1,4 +1,4 @@
-name: "React / Integration test"
+name: React / Integration test
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   integration:
-    name: Integration test
+    name: React / Integration test
     if: '!github.event.deleted'
     runs-on: ubuntu-latest
     defaults:
@@ -78,7 +78,7 @@ jobs:
           fail_ci_if_error: false
 
   unit:
-    name: Unit test
+    name: React / Unit test
     if: '!github.event.deleted'
     runs-on: ubuntu-latest
     defaults:

@@ -1,4 +1,4 @@
-name: "React / RelativeCI"
+name: React / RelativeCI
 
 on:
   workflow_run:
