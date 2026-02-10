@@ -10,6 +10,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # required to update release body with package links
+
     defaults:
       run:
         working-directory: cms
@@ -50,3 +53,26 @@ jobs:
         env:
           CR_PAT: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_TAG: ${{ steps.get_version.outputs.RELEASE_TAG }}
+
+      - name: Update GitHub release with package link
+        if: ${{ steps.detect_tag.outputs.IS_RELEASE_TAG == 'true' }}
+        env:
+          TAG: ${{ github.ref_name }}
+          IMAGE_NAME: dpl-cms-source
+          PKG_URL: https://github.com/${{ github.repository }}/pkgs/container/dpl-cms-source
+        run: |
+          if ! gh release view "$TAG" 2>/dev/null; then
+            echo "No release found for tag $TAG, skipping release update"
+            exit 0
+          fi
+          BODY=$(gh release view "$TAG" --json body -q .body || echo "")
+          if echo "$BODY" | grep -q "dpl-cms-source"; then
+            echo "Release already links to CMS package, skipping"
+            exit 0
+          fi
+          if echo "$BODY" | grep -q "## Container images"; then
+            NEW_BODY="$BODY"$'\n'"- **CMS source:** [\`$IMAGE_NAME:$TAG\`]($PKG_URL?tag=$TAG)"
+          else
+            NEW_BODY="$BODY"$'\n\n'"## Container images"$'\n\n'"- **CMS source:** [\`$IMAGE_NAME:$TAG\`]($PKG_URL?tag=$TAG)"
+          fi
+          echo "$NEW_BODY" | gh release edit "$TAG" --notes-file -
