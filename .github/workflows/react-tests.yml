@@ -52,10 +52,10 @@ jobs:
           group: 'Integration tests'
           parallel: true
           working-directory: react
-          # Disable cypress cloud for now.
-          record: false
+          record: true
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload screenshots
         uses: actions/upload-artifact@v6
