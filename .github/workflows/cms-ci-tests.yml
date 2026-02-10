@@ -151,7 +151,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: lighthouse-results
-          path: .lighthouseci
+          path: cms/.lighthouseci
 
   Pa11y:
     name: CMS / Test accessibility using Pa11y
@@ -178,7 +178,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: pa11y-screenshots
-          path: pa11y/screenshots
+          path: cms/pa11y/screenshots
 
   CypressMapped:
     name: CMS / Run Cypress mapped functional tests
@@ -205,13 +205,13 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: cypress-mapped-videos
-          path: cypress/videos
+          path: cms/cypress/videos
       - name: Archive screenshots
         if: always()
         uses: actions/upload-artifact@v6
         with:
           name: cypress-mapped-screenshots
-          path: cypress/screenshots
+          path: cms/cypress/screenshots
 
   CypressUnmapped:
     name: CMS / Run Cypress unmapped functional tests
@@ -238,13 +238,13 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: cypress-unmapped-videos
-          path: cypress/videos
+          path: cms/cypress/videos
       - name: Archive screenshots
         if: always()
         uses: actions/upload-artifact@v6
         with:
           name: cypress-unmapped-screenshots
-          path: cypress/screenshots
+          path: cms/cypress/screenshots
 
   CypressWebmaster:
     name: CMS / Run Cypress webmaster functional tests
@@ -271,13 +271,13 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: cypress-webmaster-videos
-          path: cypress/videos
+          path: cms/cypress/videos
       - name: Archive screenshots
         if: always()
         uses: actions/upload-artifact@v6
         with:
           name: cypress-webmaster-screenshots
-          path: cypress/screenshots
+          path: cms/cypress/screenshots
 
   MarkdownLint:
     name: CMS / Lint Markdown
@@ -295,6 +295,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           cache: 'yarn'
+          cache-dependency-path: 'cms/yarn.lock'
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Install problem matcher
@@ -320,7 +321,7 @@ jobs:
           # Read more about reporters: https://github.com/reviewdog/reviewdog#reporters
           reporter: github-pr-review
           # We can exclude a single directory, so we go for .git.
-          path: dev-scripts
+          path: cms/dev-scripts
           # Set the default filter-mode which only reports violations caused by
           # added/modified lines.
           # Read more about filter-mode: https://github.com/reviewdog/reviewdog#filter-mode
@@ -342,6 +343,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           cache: 'yarn'
+          cache-dependency-path: 'cms/yarn.lock'
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Run ESLint
@@ -363,6 +365,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           cache: 'yarn'
+          cache-dependency-path: 'cms/yarn.lock'
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Run ESLint

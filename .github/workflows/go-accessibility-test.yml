@@ -49,7 +49,7 @@ jobs:
       - name: Load environment variables
         uses: cardinalby/export-env-action@v2
         with:
-          envFile: ".env.test"
+          envFile: "go/.env.test"
 
       - name: Install Playwright
         run: npx playwright install --with-deps

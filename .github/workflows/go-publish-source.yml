@@ -44,6 +44,7 @@ jobs:
         with:
           node-version-file: "go/.nvmrc"
           cache: "yarn"
+          cache-dependency-path: "go/yarn.lock"
 
       - name: Install dependencies
         if: ${{ steps.detect_tag.outputs.IS_RELEASE_TAG == 'true' }}
