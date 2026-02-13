@@ -1,13 +1,26 @@
-# This workflow takes care of building and publishing the source code of the Danish Public Libraries CMS.
+---
 name: CMS / Publish source
 on:
   push:
     tags:
       - '[0-9]+.[0-9]+.[0-9]+'
 jobs:
+  design_create_release:
+    name: CMS / Prepare design-release
+    uses: ./.github/workflows/design-system-release-tag-workflow.yml
+
+  react_create_release:
+    name: CMS / Prepare react-release
+    uses: ./.github/workflows/react-release-tag-workflow.yml
+
   build:
     runs-on: ubuntu-latest
     permissions: write-all
+    # We need to wait for design/react releases to finish building, so we can
+    # composer require them as part of building the CMS package.
+    needs:
+      - design_create_release
+      - react_create_release
 
     defaults:
       run:
@@ -16,42 +29,39 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      # Validate the format of the tag. We only want to react on a precise pattern.
-      - name: Detect release tag
-        id: detect_tag
-        run: |
-          if [[ "${{ github.ref }}" =~ ^refs/tags/[0-9]+\.[0-9]+\.[0-9]+$ ]]
-          then
-            echo "IS_RELEASE_TAG=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "IS_RELEASE_TAG=false" >> "$GITHUB_OUTPUT"
-          fi
+
       # Extract version from tag.
       - name: Get version
         id: get_version
         run: |
           echo "RELEASE_TAG=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
-        if: ${{ steps.detect_tag.outputs.IS_RELEASE_TAG == 'true' }}
-      # Write version to .version file.
+
       - name: Create .version file
         run: |
           echo "{\"version\": \"${{ steps.get_version.outputs.RELEASE_TAG }}\"}" > .version
-        if: ${{ steps.detect_tag.outputs.IS_RELEASE_TAG == 'true' }}
-      # Install go-task since we need it for building the source package.
+
+      # Install go-test, as we will use Taskfile.yml
       - name: Install go-task
         uses: arduino/setup-task@v2
-        if: ${{ steps.detect_tag.outputs.IS_RELEASE_TAG == 'true' }}
+
+      # Setup composer.json to target our built design-system-dist.zip and
+      # react-dist.zip files, and build + publish the source.
       - name: Build and publish source
-        run: |
-          echo "Publishing tag: $RELEASE_TAG"
-          RELEASE_IMAGE_TAG=$RELEASE_TAG RELEASE_IMAGE_REGISTRY=ghcr.io/${{ github.repository_owner}} task source:deploy
-        if: ${{ steps.detect_tag.outputs.IS_RELEASE_TAG == 'true' }}
         env:
           CR_PAT: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.get_version.outputs.RELEASE_TAG }}
+          RELEASE: ${{ steps.get_version.outputs.RELEASE_TAG }}
           RELEASE_TAG: ${{ steps.get_version.outputs.RELEASE_TAG }}
+          RELEASE_IMAGE_TAG: ${{ steps.get_version.outputs.RELEASE_TAG }}
+          RELEASE_IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner}}"
+        run: |
+          echo "Publishing tag: $RELEASE_TAG"
+          RELEASE=2026.7.5 VERSION=2026.7.5 task dev:composer:update-design-system
+          RELEASE=2026.7.5 VERSION=2026.7.5 task dev:composer:update-react
+          task source:deploy
 
+      # This is not strictly necessary, but useful for browsing GH releases.
       - name: Update GitHub release with package link
-        if: ${{ steps.detect_tag.outputs.IS_RELEASE_TAG == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.ref_name }}
