@@ -54,12 +54,13 @@
         },
         {
             "type": "package",
+            "canonical": false,
             "package": {
                 "name": "danskernesdigitalebibliotek/dpl-react",
                 "version": "0.0.0",
                 "type": "drupal-library",
                 "dist": {
-                    "url": "https://github.com/danskernesdigitalebibliotek/dpl-web/releases/download/branch-develop/dist-react.zip",
+                    "url": "https://github.com/rasben/dpl-web/releases/download/branch-develop/dist-react.zip",
                     "type": "zip"
                 },
                 "require": {
@@ -69,12 +70,42 @@
         },
         {
             "type": "package",
+            "canonical": false,
             "package": {
                 "name": "danskernesdigitalebibliotek/dpl-design-system",
                 "type": "drupal-library",
                 "version": "0.0.0",
                 "dist": {
-                    "url": "https://github.com/danskernesdigitalebibliotek/dpl-web/releases/download/branch-develop/dist-design-system.zip",
+                    "url": "https://github.com/rasben/dpl-web/releases/download/branch-develop/dist-design-system.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "canonical": false,
+            "package": {
+                "name": "danskernesdigitalebibliotek/dpl-react",
+                "type": "drupal-library",
+                "version": "0.0.0-dev",
+                "dist": {
+                    "url": "packages/dpl-react.zip",
+                    "type": "zip"
+                },
+                "require": {
+                    "composer/installers": "^1.2.0"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "canonical": false,
+            "package": {
+                "name": "danskernesdigitalebibliotek/dpl-design-system",
+                "type": "drupal-library",
+                "version": "0.0.0-dev",
+                "dist": {
+                    "url": "packages/dpl-design-system.zip",
                     "type": "zip"
                 }
             }
